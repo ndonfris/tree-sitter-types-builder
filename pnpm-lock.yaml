@@ -23,6 +23,9 @@ dependencies:
   tree-sitter-bash:
     specifier: ^0.21.0
     version: 0.21.0(tree-sitter@0.21.0)
+  web-tree-sitter:
+    specifier: ^0.22.2
+    version: 0.22.2
 
 devDependencies:
   '@types/commander':
@@ -128,6 +131,10 @@ packages:
 
   /web-tree-sitter@0.21.0:
     resolution: {integrity: sha512-iJ+QJ6ikN9D9cG7Kh6q3KtAstYFUQbYZ8OjuPEJYWfj2kLrmp5I3C2n6WjE1Y3jvj7nJbkcrJytJGWUEhCxn+g==}
+    dev: false
+
+  /web-tree-sitter@0.22.2:
+    resolution: {integrity: sha512-gY/aw1wNQbTU0m7U5PojDOftsKMbBIpusJ9Ia/y7sfIN4jk9xXLHwQs+eQ3QP772IdjxVqje0hRTCh5CzrWeGg==}
     dev: false
 
   github.com/ram02z/tree-sitter-fish/f9176908c9eb2e11eb684d79e1d00f3b29bd65c9:
