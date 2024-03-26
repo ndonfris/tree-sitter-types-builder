@@ -11,6 +11,9 @@ dependencies:
   '@types/shell-escape':
     specifier: ^0.2.3
     version: 0.2.3
+  commander:
+    specifier: ^12.0.0
+    version: 12.0.0
   shell-escape:
     specifier: ^0.2.0
     version: 0.2.0
@@ -22,6 +25,9 @@ dependencies:
     version: 0.21.0(tree-sitter@0.21.0)
 
 devDependencies:
+  '@types/commander':
+    specifier: ^2.12.2
+    version: 2.12.2
   '@types/node':
     specifier: ^20.11.30
     version: 20.11.30
@@ -41,6 +47,13 @@ packages:
     resolution: {integrity: sha512-AZEImtveh36AD2DX1zFRfGvrRlx3+3XG8UTrvXfEn9xYMzdFDXlrnCgkzt8GSgy1rYRSTsNdHmMEj9WCsBu0/Q==}
     dev: false
 
+  /@types/commander@2.12.2:
+    resolution: {integrity: sha512-0QEFiR8ljcHp9bAbWxecjVRuAMr16ivPiGOw6KFQBVrVd0RQIcM3xKdRisH2EDWgVWujiYtHwhSkSUoAAGzH7Q==}
+    deprecated: This is a stub types definition for commander (https://github.com/tj/commander.js). commander provides its own type definitions, so you don't need @types/commander installed!
+    dependencies:
+      commander: 12.0.0
+    dev: true
+
   /@types/node@20.11.30:
     resolution: {integrity: sha512-dHM6ZxwlmuZaRmUPfv1p+KrdD1Dci04FbdEm/9wEMouFqxYoFl5aMkt0VMAUtYRQDyYvD41WJLukhq/ha3YuTw==}
     dependencies:
@@ -50,6 +63,10 @@ packages:
   /@types/shell-escape@0.2.3:
     resolution: {integrity: sha512-xZWkMuQkn1I20gEzhYRa4/t1pwZ8XiIkqGA1Iee1D2IgAUIRLr57nrgJgF2QmHEfkfVzOM59gi/4xp6V+Aq+4A==}
     dev: false
+
+  /commander@12.0.0:
+    resolution: {integrity: sha512-MwVNWlYjDTtOjX5PiD7o5pK0UrFU/OYgcJfjjK4RaHZETNtjJqrZa9Y9ds88+A+f+d5lv+561eZ+yCKoS3gbAA==}
+    engines: {node: '>=18'}
 
   /nan@2.19.0:
     resolution: {integrity: sha512-nO1xXxfh/RWNxfd/XPfbIfFk5vgLsAxUR9y5O0cHMJu/AW9U95JLXqthYHjEp+8gQ5p96K9jUp8nbVOxCdRbtw==}
