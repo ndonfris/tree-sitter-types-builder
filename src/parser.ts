@@ -29,6 +29,10 @@ const WasmExists = (wasmPath: string) => {
   return false
 }
 
+function langFormatString(lang: string) {
+  return lang.charAt(0).toUpperCase() + lang.slice(1).toLowerCase()
+}
+
 const IsWasm = async (wasmPath: string) => {
   try {
     const wasmFile = await Parser.Language.load(wasmPath)
@@ -45,7 +49,7 @@ const LangFromWasm = (wasmPath: string) => {
     return ''
   }
   const lang = wasmPath.split('.wasm')[0]
-  return lang.split('-').pop() ?? ''
+  return langFormatString(lang.split('-').pop() ?? '')
 }
 
 
@@ -106,7 +110,7 @@ function SetupDefaultsFromOptions(obj: ProgramOptions):  {
 
   if (!wasm) return {err: true, defaults}
 
-  defaults.lang = lang ? lang : LangFromWasm(wasm)
+  defaults.lang = lang ? langFormatString(lang) : LangFromWasm(wasm)
   if (!defaults.lang) {
     console.log("Invalid lang name")
     return {err: true, defaults}
@@ -134,61 +138,44 @@ function buildNames(langName: string, special: 'Node' | 'FieldName' ) {
 
 const print = async (langName: string, wasmPath: string, outputFn: (_: string) => void, withTypes: OutputTypesObj) => {
   const lang = await LangString(wasmPath)
-  const nodeTypesArr: string[] = []
+  const [nodeTypesArr, nodeFieldsArr]: [string[], string[]] = [[], []]
   const outArr: string[] = [
     '/**',
     ' * AUTO GENERATED FILE',
+    ' *     tree-sitter-types-builder',
     ' */',
   ]
 
-  function addNodeTypes() {
-    for (let i = 0; i < lang.nodeTypeCount; i++) {
-      const str = lang.nodeTypeForId(i) ?? ''
+  function addToArray(arr: string[], maxLen: number, fn: (i: number) => string) {
+    for (let i = 0; i < maxLen; i++) {
+      const str = fn(i)
       const raw = String.raw`${str}`
       const wrappedStr = JSON.stringify(`${raw}`)
-      if (nodeTypesArr.includes(wrappedStr)) {
-        continue
-      }
-      nodeTypesArr.push(wrappedStr)
+      if (arr.includes(wrappedStr)) continue
+      arr.push(wrappedStr)
     }
-    // outputFn(`export type FishTsNodeType =\n\t${nodeTypesArr.join(' |\n\t')}`)
-    // outputFn('');
-    // outputFn(`export enum FishTsNodeType {\n ${nodeTypesArr.map((x, i) => `\t${x} = ${i}`).join(',\n')} \n}`)
-    // outputFn(`export const FishTsNodeTypeSet = new Set<FishTsNodeType>([ ${nodeTypesArr.map(x => `${x}`).join(', ')} ])`);
-    // outputFn('');
-
-    let { typeStr, enumStr, setStr, mapStr } = buildNames(langName, 'Node')
-    if (withTypes.Type) outArr.push(`export type ${typeStr} =\n\t${nodeTypesArr.join(' |\n\t')}`)
-    if (withTypes.Enum) outArr.push(`export enum ${enumStr} {\n ${nodeTypesArr.map((x, i) => `\t${x} = ${i}`).join(',\n')} \n}`)
-    if (withTypes.Set)  outArr.push(`export const ${setStr} = new Set<${typeStr}>([ ${nodeTypesArr.map(x => `${x}`).join(', ')} ])`)
-    if (withTypes.Map)  outArr.push(`export const ${mapStr} = new Map<${typeStr}, number>([ ${nodeTypesArr.map((x, i) => `[${x}, ${i}]`).join(', ')} ])`)
-
+    return arr
   }
 
-  function addFieldTypes() {
-    const nodeFieldsArr: string[] = []
-    for (let i = 0 ; i < lang.fieldCount; i++) {
-      const str = lang.fieldNameForId(i) ?? 'null'
-      const raw = String.raw`${str}`
-      const wrappedStr = JSON.stringify(`${raw}`)
-      if (nodeFieldsArr.includes(wrappedStr)) {
-        continue
-      }
-      nodeFieldsArr.push(wrappedStr)
+
+  function addToOutput( type: 'Node' | 'FieldName', typeArr: string[],) {
+    let { typeStr, enumStr, setStr, mapStr } = buildNames(langName, type)
+    if (withTypes.Type) outArr.push(`export type ${typeStr} =\n\t${typeArr.join(' |\n\t')}`)
+    if (withTypes.Enum) {
+      outArr.push(`\nexport namespace ${typeStr} {\n\t`)
+      outArr.push(`  export enum Keys {\n ${typeArr.map((x, i) => `\t${x} = ${i}`).join(',\n')} \n   }`)
+      outArr.push(`  export function getKeys(): ${enumStr}[] {\n\t return Object.keys(${enumStr}).map(x => ${enumStr}[x]) as ${enumStr}[]\n   }`)
+      outArr.push(`}`)
     }
-    // outputFn(`export type FishTsFieldNameType =\n\t${ nodeFieldsArr.join(' |\n\t')}`)
-    // outputFn('');
-    // outputFn(`export enum FishTsFieldNameType {\n${ nodeFieldsArr.map((x, i) => `\t${x} = ${i}`).join(',\n')} \n}`);
-    // outputFn(`export const FishTsFieldNameTypeSet = new Set<FishTsFieldNameType>([${nodeFieldsArr.map(x => `${x}`).join(', ') }])`);
-    let { typeStr, enumStr, setStr, mapStr } = buildNames(langName, 'FieldName')
-    if (withTypes.Type) outArr.push(`export type ${typeStr} =\n\t${ nodeFieldsArr.join(' |\n\t')}`)
-    if (withTypes.Enum) outArr.push(`export enum ${enumStr} {\n${ nodeFieldsArr.map((x, i) => `\t${x} = ${i}`).join(',\n')} \n}`);
-    if (withTypes.Set) outArr.push(`export const ${setStr} = new Set<${typeStr}>([${nodeFieldsArr.map(x => `${x}`).join(', ') }])`);
-    if (withTypes.Map) outArr.push(`export const ${mapStr} = new Map<${typeStr}, number>([${nodeFieldsArr.map((x, i) => `[${x}, ${i}]`).join(', ') }])`);
+    // if (withTypes.Set)  outArr.push(`export const ${setStr} = new Set<${typeStr}>([ ${typeArr.map(x => `${x}`).join(', ')} ])\n`)
+    if (withTypes.Map)  outArr.push(`export const ${mapStr} = new Map<${typeStr}, number>([ ${typeArr.map((x, i) => `[${x}, ${i}]`).join(', ')} ])`)
   }
 
-  addNodeTypes()
-  addFieldTypes()
+  addToArray(nodeTypesArr, lang.nodeTypeCount, i => lang.nodeTypeForId(i) ?? '')
+  addToArray(nodeFieldsArr, lang.fieldCount, i => lang.fieldNameForId(i) ?? 'null')
+
+  addToOutput('Node', nodeTypesArr)
+  addToOutput('FieldName', nodeFieldsArr)
 
   outputFn(outArr.join('\n'))
 }
