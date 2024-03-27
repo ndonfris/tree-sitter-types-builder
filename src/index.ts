@@ -1,14 +1,7 @@
 import fs from 'fs'
-// import fs from 'fs'
-import path, { resolve } from 'path';
+import { resolve } from 'path';
 import Parser from 'web-tree-sitter'
 import { Command } from 'commander';
-
-// const wasmPath = resolve(__dirname , '..',
-//   'node_modules',
-//   '@esdmr',
-//   'tree-sitter-fish',
-//   'tree-sitter-fish.wasm')
 
 async function LangString(wasmPath: string) {
   await Parser.init()
@@ -16,32 +9,11 @@ async function LangString(wasmPath: string) {
   return wasmFile
 }
 
-
-// check if filepath exists
-const WasmExists = (wasmPath: string) => {
-  try {
-    if (fs.existsSync(wasmPath)) {
-      return true
-    }
-  } catch(err) {
-    console.error(err)
-  }
-  return false
-}
-
 function langFormatString(lang: string) {
   return lang.charAt(0).toUpperCase() + lang.slice(1).toLowerCase()
 }
 
-const IsWasm = async (wasmPath: string) => {
-  try {
-    const wasmFile = await Parser.Language.load(wasmPath)
-    return wasmFile !== null ? true : false
-  } catch(err) {
-    console.error("Error loading wasm file", err)
-    return false
-  }
-}
+
 
 const LangFromWasm = (wasmPath: string) => {
   if (!wasmPath.endsWith('.wasm')) {
@@ -103,7 +75,7 @@ function SetupDefaultsFromOptions(obj: ProgramOptions):  {
   const defaults = {
     wasm: obj.wasm ? obj.wasm : resolve('__dirname'),
     lang: '',
-    output: (str: string) => console.log(str),
+    output: (str: string = '') => console.log(str),
     generate: OutputOptionsSet
   }
   const { wasm, lang, output, generate } = obj
@@ -117,7 +89,7 @@ function SetupDefaultsFromOptions(obj: ProgramOptions):  {
   }
 
   if (output) {
-    defaults.output = (str: string) => fs.writeFileSync(output, str+'\n')
+    defaults.output = (str: string = '') => fs.writeFileSync(output, str+'\n')
   }
 
   if (generate) {
@@ -131,9 +103,8 @@ function buildNames(langName: string, special: 'Node' | 'FieldName' ) {
   const joinString = (...arr: string[]) => arr.filter(x => x).join('')
   const typeStr = joinString(langName, special, 'Type')
   const enumStr = joinString(langName, special, 'Type')
-  const setStr = joinString(langName,  special, 'TypeSet')
   const mapStr = joinString(langName,  special, 'TypeMap')
-  return { typeStr, enumStr, setStr, mapStr }
+  return { typeStr, enumStr, mapStr }
 }
 
 const print = async (langName: string, wasmPath: string, outputFn: (_: string) => void, withTypes: OutputTypesObj) => {
@@ -159,15 +130,18 @@ const print = async (langName: string, wasmPath: string, outputFn: (_: string) =
 
 
   function addToOutput( type: 'Node' | 'FieldName', typeArr: string[],) {
-    let { typeStr, enumStr, setStr, mapStr } = buildNames(langName, type)
+    let { typeStr, enumStr, mapStr } = buildNames(langName, type)
     if (withTypes.Type) outArr.push(`export type ${typeStr} =\n\t${typeArr.join(' |\n\t')}`)
     if (withTypes.Enum) {
       outArr.push(`\nexport namespace ${typeStr} {\n\t`)
       outArr.push(`  export enum Keys {\n ${typeArr.map((x, i) => `\t${x} = ${i}`).join(',\n')} \n   }`)
       outArr.push(`  export function getKeys(): ${enumStr}[] {\n\t return Object.keys(${enumStr}).map(x => ${enumStr}[x]) as ${enumStr}[]\n   }`)
+      outArr.push(`  export function hasKeys(...keys: ${enumStr}[]){\n\t `)
+      outArr.push(`      const allKeys = getKeys()\n`)
+      outArr.push(`      return keys.every(k => allKeys.includes(k))`)
+      outArr.push(`  }`)
       outArr.push(`}`)
     }
-    // if (withTypes.Set)  outArr.push(`export const ${setStr} = new Set<${typeStr}>([ ${typeArr.map(x => `${x}`).join(', ')} ])\n`)
     if (withTypes.Map)  outArr.push(`export const ${mapStr} = new Map<${typeStr}, number>([ ${typeArr.map((x, i) => `[${x}, ${i}]`).join(', ')} ])`)
   }
 

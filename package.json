@@ -1,33 +1,32 @@
 {
-  "name": "fish-lsp-ts-parser",
-  "version": "1.0.0",
+  "name": "tree-sitter-types-builder",
+  "version": "0.0.1",
   "description": "",
-  "main": "./out/builder.js",
+  "main": "./out/index.js",
   "bin": {
-    "fish-lsp-ts-parser": "./bin/tree-sitter-types-builder"
+    "tree-sitter-types-builder": "./bin/tree-sitter-types-builder"
   },
   "scripts": {
     "clean": "rimraf out node_modules",
     "build": "pnpm run clean && pnpm install && pnpm compile",
     "compile": "npx tsc -b"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "tree-sitter",
+    "parser",
+    "typescript"
+  ],
+  "author": "ndonfris",
   "license": "ISC",
   "devDependencies": {
-    "@types/commander": "^2.12.2",
+    "@esdmr/tree-sitter-fish": "^3.5.1",
     "@types/node": "^20.11.30",
     "tree-sitter-cli": "^0.20.8",
-    "tree-sitter-fish": "github:ram02z/tree-sitter-fish",
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "@esdmr/tree-sitter-fish": "^3.5.1",
-    "@types/shell-escape": "^0.2.3",
     "commander": "^12.0.0",
-    "shell-escape": "^0.2.0",
     "tree-sitter": "^0.21.0",
-    "tree-sitter-bash": "^0.21.0",
     "web-tree-sitter": "^0.22.2"
   }
 }

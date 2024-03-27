@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../out/parser.js')
+require('../out/index.js')

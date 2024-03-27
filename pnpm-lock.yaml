@@ -5,41 +5,26 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@esdmr/tree-sitter-fish':
-    specifier: ^3.5.1
-    version: 3.5.1
-  '@types/shell-escape':
-    specifier: ^0.2.3
-    version: 0.2.3
   commander:
     specifier: ^12.0.0
     version: 12.0.0
-  shell-escape:
-    specifier: ^0.2.0
-    version: 0.2.0
   tree-sitter:
     specifier: ^0.21.0
     version: 0.21.0
-  tree-sitter-bash:
-    specifier: ^0.21.0
-    version: 0.21.0(tree-sitter@0.21.0)
   web-tree-sitter:
     specifier: ^0.22.2
     version: 0.22.2
 
 devDependencies:
-  '@types/commander':
-    specifier: ^2.12.2
-    version: 2.12.2
+  '@esdmr/tree-sitter-fish':
+    specifier: ^3.5.1
+    version: 3.5.1
   '@types/node':
     specifier: ^20.11.30
     version: 20.11.30
   tree-sitter-cli:
     specifier: ^0.20.8
     version: 0.20.8
-  tree-sitter-fish:
-    specifier: github:ram02z/tree-sitter-fish
-    version: github.com/ram02z/tree-sitter-fish/f9176908c9eb2e11eb684d79e1d00f3b29bd65c9
   typescript:
     specifier: ^5.4.3
     version: 5.4.3
@@ -48,13 +33,6 @@ packages:
 
   /@esdmr/tree-sitter-fish@3.5.1:
     resolution: {integrity: sha512-AZEImtveh36AD2DX1zFRfGvrRlx3+3XG8UTrvXfEn9xYMzdFDXlrnCgkzt8GSgy1rYRSTsNdHmMEj9WCsBu0/Q==}
-    dev: false
-
-  /@types/commander@2.12.2:
-    resolution: {integrity: sha512-0QEFiR8ljcHp9bAbWxecjVRuAMr16ivPiGOw6KFQBVrVd0RQIcM3xKdRisH2EDWgVWujiYtHwhSkSUoAAGzH7Q==}
-    deprecated: This is a stub types definition for commander (https://github.com/tj/commander.js). commander provides its own type definitions, so you don't need @types/commander installed!
-    dependencies:
-      commander: 12.0.0
     dev: true
 
   /@types/node@20.11.30:
@@ -63,17 +41,10 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/shell-escape@0.2.3:
-    resolution: {integrity: sha512-xZWkMuQkn1I20gEzhYRa4/t1pwZ8XiIkqGA1Iee1D2IgAUIRLr57nrgJgF2QmHEfkfVzOM59gi/4xp6V+Aq+4A==}
-    dev: false
-
   /commander@12.0.0:
     resolution: {integrity: sha512-MwVNWlYjDTtOjX5PiD7o5pK0UrFU/OYgcJfjjK4RaHZETNtjJqrZa9Y9ds88+A+f+d5lv+561eZ+yCKoS3gbAA==}
     engines: {node: '>=18'}
-
-  /nan@2.19.0:
-    resolution: {integrity: sha512-nO1xXxfh/RWNxfd/XPfbIfFk5vgLsAxUR9y5O0cHMJu/AW9U95JLXqthYHjEp+8gQ5p96K9jUp8nbVOxCdRbtw==}
-    dev: true
+    dev: false
 
   /node-addon-api@7.1.0:
     resolution: {integrity: sha512-mNcltoe1R8o7STTegSOHdnJNN7s5EUvhoS7ShnTHDyOSd+8H+UdWODq6qSv67PjC8Zc5JRT8+oLAMCr0SIXw7g==}
@@ -83,26 +54,6 @@ packages:
   /node-gyp-build@4.8.0:
     resolution: {integrity: sha512-u6fs2AEUljNho3EYTJNBfImO5QTo/J/1Etd+NVdCj7qWKUSN/bSLkZwhDv7I+w/MSC6qJ4cknepkAYykDdK8og==}
     hasBin: true
-    dev: false
-
-  /shell-escape@0.2.0:
-    resolution: {integrity: sha512-uRRBT2MfEOyxuECseCZd28jC1AJ8hmqqneWQ4VWUTgCAFvb3wKU1jLqj6egC4Exrr88ogg3dp+zroH4wJuaXzw==}
-    dev: false
-
-  /tree-sitter-bash@0.21.0(tree-sitter@0.21.0):
-    resolution: {integrity: sha512-UuXf+wliu1mmS/O2Iz7OQghExM4a+lk+GaVPndZVpAJnFuzanaN33UcHOsrmngHxaOXHz5JSZrwp6i2qM/PKag==}
-    requiresBuild: true
-    peerDependencies:
-      tree-sitter: ^0.21.0
-      tree_sitter: '*'
-    peerDependenciesMeta:
-      tree_sitter:
-        optional: true
-    dependencies:
-      node-addon-api: 7.1.0
-      node-gyp-build: 4.8.0
-      tree-sitter: 0.21.0
-      web-tree-sitter: 0.21.0
     dev: false
 
   /tree-sitter-cli@0.20.8:
@@ -129,19 +80,6 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: true
 
-  /web-tree-sitter@0.21.0:
-    resolution: {integrity: sha512-iJ+QJ6ikN9D9cG7Kh6q3KtAstYFUQbYZ8OjuPEJYWfj2kLrmp5I3C2n6WjE1Y3jvj7nJbkcrJytJGWUEhCxn+g==}
-    dev: false
-
   /web-tree-sitter@0.22.2:
     resolution: {integrity: sha512-gY/aw1wNQbTU0m7U5PojDOftsKMbBIpusJ9Ia/y7sfIN4jk9xXLHwQs+eQ3QP772IdjxVqje0hRTCh5CzrWeGg==}
     dev: false
-
-  github.com/ram02z/tree-sitter-fish/f9176908c9eb2e11eb684d79e1d00f3b29bd65c9:
-    resolution: {tarball: https://codeload.github.com/ram02z/tree-sitter-fish/tar.gz/f9176908c9eb2e11eb684d79e1d00f3b29bd65c9}
-    name: tree-sitter-fish
-    version: 3.5.1
-    requiresBuild: true
-    dependencies:
-      nan: 2.19.0
-    dev: true
