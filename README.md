@@ -20,12 +20,39 @@ it is much easier to remove these types than to find what types will be needed.
 
 ## Usage/Installation
 
-  > **Note**
-  > requires [web-tree-sitter](https://www.npmjs.com/package/web-tree-sitter), and [tree-sitter-cli](https://www.npmjs.com/package/tree-sitter-cli).
+<details>
+<summary><ins>Global Installation</ins></summary>
 
-  <ins>Inside your project root directory:</ins>
+1. Install the package globally __(using your preferred package manager)__
 
-1. Install
+    ```bash
+    # npm installation
+    npm i -g tree-sitter-types-builder 
+
+    # yarn installation
+    yarn global add tree-sitter-types-builder
+
+    # pnpm installation
+    pnpm add --global tree-sitter-types-builder
+    ```
+
+2. Use `tree-sitter-types-builder` command where needed
+
+    ```bash
+    # in some project with a wasm file
+    tree-sitter-types-builder --wasm path/to/your.wasm --language your_language --output path/to/your/types.ts 
+    ```
+
+</details>
+
+
+<details>
+<summary><ins>Local Project Installation</ins></summary>
+
+> __Note:__ <br/>
+> requires [web-tree-sitter](https://www.npmjs.com/package/web-tree-sitter), and [tree-sitter-cli](https://www.npmjs.com/package/tree-sitter-cli).
+
+1. Install inside package inside project
 
     ```bash
     pnpm install --save-dev tree-sitter-types-builder
@@ -52,6 +79,8 @@ it is much easier to remove these types than to find what types will be needed.
    ```
 
    > edit the generated types to fit your needs
+  
+</details>
 
 ## Example (TS) | Introduction
 
