@@ -1,13 +1,10 @@
 {
   "name": "tree-sitter-types-builder",
-  "version": "0.0.2",
-  "description": "",
-  "main": "./out/index.js",
-  "bin": {
-    "tree-sitter-types-builder": "./bin/tree-sitter-types-builder"
-  },
+  "version": "0.0.3",
+  "description": "Tree sitter helper program to generate static typescript definitions for every tree-sitter node type of a language.",
+  "bin": "./bin/tree-sitter-types-builder",
   "scripts": {
-    "reinstall-modules": "pnpm install",
+    "postinstall": "npx tsc -b",
     "clean": "rimraf out node_modules",
     "build": "run-s clean reinstall-modules compile",
     "compile": "tsc -b"
