@@ -5,5 +5,5 @@ pnpm install
 pnpm build
 
 echo "./bin/tree-sitter parse -w node_modules/@esdmr/tree-sitter-fish/tree-sitter-fish.wasm -l Fish"
-j
+
 ./bin/tree-sitter parse -w node_modules/@esdmr/tree-sitter-fish/tree-sitter-fish.wasm -l Fish

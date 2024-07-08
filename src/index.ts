@@ -13,8 +13,6 @@ function langFormatString(lang: string) {
   return lang.charAt(0).toUpperCase() + lang.slice(1).toLowerCase()
 }
 
-
-
 const LangFromWasm = (wasmPath: string) => {
   if (!wasmPath.endsWith('.wasm')) {
     console.log("Invalid wasm name from file");
@@ -23,9 +21,6 @@ const LangFromWasm = (wasmPath: string) => {
   const lang = wasmPath.split('.wasm')[0]
   return langFormatString(lang.split('-').pop() ?? '')
 }
-
-
-
   
 type OutputTypes = 'Type' | 'Enum' | 'Set' | 'Map'
 type OutputTypesObj = {[key in OutputTypes]: boolean}
@@ -154,10 +149,6 @@ const print = async (langName: string, wasmPath: string, outputFn: (_: string) =
   outputFn(outArr.join('\n'))
 }
 
-
-
-
-
 const binary = new Command()
   .option('-o, --output <output>', 'output file to write to')
   .option('-w, --wasm <wasm>', 'wasm file to read from')
@@ -172,6 +163,5 @@ const binary = new Command()
     const { lang: langName, wasm: wasmPath, output: outputFile, generate: withTypes } = defaults
     print(langName, wasmPath, outputFile, withTypes)
   })
-
 
 binary.parse(process.argv)
